@@ -1,0 +1,60 @@
+name: Calidad y seguridad
+
+on:
+  push:
+    branches:
+      - develop
+      - main
+  pull_request:
+    branches:
+      - develop
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  lint:
+    name: ESLint
+    runs-on: ubuntu-latest
+    steps:
+      - name: Descargar el código
+        uses: actions/checkout@v4
+
+      - name: Instalar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+          cache-dependency-path: api/package-lock.json
+
+      - name: Instalar dependencias de la API
+        working-directory: api
+        run: npm ci
+
+      - name: Ejecutar ESLint
+        working-directory: api
+        run: npm run lint
+
+  codeql:
+    name: Análisis de seguridad con CodeQL
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      actions: read
+      security-events: write
+    steps:
+      - name: Descargar el código
+        uses: actions/checkout@v4
+
+      - name: Inicializar CodeQL
+        uses: github/codeql-action/init@v4
+        with:
+          languages: javascript-typescript
+          build-mode: none
+
+      - name: Ejecutar el análisis
+        uses: github/codeql-action/analyze@v4
+        with:
+          category: "/language:javascript-typescript"
