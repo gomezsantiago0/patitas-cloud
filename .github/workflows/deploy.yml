@@ -1,0 +1,106 @@
+name: Build, pruebas y despliegue
+
+on:
+  push:
+    branches:
+      - develop
+  pull_request:
+    branches:
+      - develop
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: despliegue-${{ github.ref }}
+  cancel-in-progress: false
+
+env:
+  VERSION_NODE: "22"
+  URL_DEV: https://delightful-mud-0d353af0f.8.azurestaticapps.net
+
+jobs:
+  construir:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Descargar el código
+        uses: actions/checkout@v4
+
+      - name: Instalar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.VERSION_NODE }}
+          cache: npm
+          cache-dependency-path: api/package-lock.json
+
+      - name: Instalar dependencias de la API
+        working-directory: api
+        run: npm ci
+
+      - name: Verificar la sintaxis del código
+        run: find api web -name "*.js" -not -path "*/node_modules/*" -print0 | xargs -0 -n1 node --check
+
+  pruebas:
+    name: Pruebas
+    needs: construir
+    runs-on: ubuntu-latest
+    steps:
+      - name: Descargar el código
+        uses: actions/checkout@v4
+
+      - name: Instalar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.VERSION_NODE }}
+          cache: npm
+          cache-dependency-path: api/package-lock.json
+
+      - name: Instalar dependencias de la API
+        working-directory: api
+        run: npm ci
+
+      - name: Ejecutar pruebas unitarias
+        working-directory: api
+        run: npm test
+
+  desplegar-dev:
+    name: Deploy a dev
+    needs: pruebas
+    if: github.event_name == 'push' && github.ref == 'refs/heads/develop'
+    runs-on: ubuntu-latest
+    environment: dev
+    steps:
+      - name: Descargar el código
+        uses: actions/checkout@v4
+
+      - name: Publicar en Azure Static Web Apps
+        uses: Azure/static-web-apps-deploy@v1
+        with:
+          azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN_DEV }}
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          action: upload
+          app_location: web
+          api_location: api
+          output_location: ""
+          skip_app_build: true
+
+  smoke-test-dev:
+    name: Smoke test en dev
+    needs: desplegar-dev
+    runs-on: ubuntu-latest
+    steps:
+      - name: Comprobar que el sitio y la API responden
+        run: |
+          for intento in $(seq 1 18); do
+            if curl -fsS "$URL_DEV/" | grep -q "Patitas" && curl -fsS "$URL_DEV/api/health" | grep -q '"estado":"ok"'; then
+              echo "Sitio y API saludables"
+              exit 0
+            fi
+            echo "Intento $intento sin respuesta correcta, esperando 10 segundos"
+            sleep 10
+          done
+          echo "El sitio desplegado no respondió correctamente"
+          exit 1
