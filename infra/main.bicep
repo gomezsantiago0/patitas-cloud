@@ -75,6 +75,14 @@ resource cosmos 'Microsoft.DocumentDB/databaseAccounts@2024-05-15' = {
     ]
     minimalTlsVersion: 'Tls12'
     publicNetworkAccess: 'Enabled'
+    backupPolicy: {
+      type: 'Periodic'
+      periodicModeProperties: {
+        backupIntervalInMinutes: 240
+        backupRetentionIntervalInHours: 168
+        backupStorageRedundancy: 'Zone'
+      }
+    }
   }
 }
 
