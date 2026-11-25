@@ -95,7 +95,9 @@ jobs:
       - name: Comprobar que el sitio y la API responden
         run: |
           for intento in $(seq 1 18); do
-            if curl -fsS "$URL_DEV/" | grep -q "Patitas" && curl -fsS "$URL_DEV/api/health" | grep -q '"estado":"ok"'; then
+            portada=$(curl -fsS "$URL_DEV/" || true)
+            salud=$(curl -fsS "$URL_DEV/api/health" || true)
+            if echo "$portada" | grep -q "Patitas" && echo "$salud" | grep -Eq '"estado"[[:space:]]*:[[:space:]]*"ok"'; then
               echo "Sitio y API saludables"
               exit 0
             fi
