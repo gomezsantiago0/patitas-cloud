@@ -81,6 +81,8 @@ Hay tres formas de volver a una versión anterior, de la más a la menos frecuen
 
 **c) Infraestructura.** Se vuelve a ejecutar `az deployment group create` con la versión anterior del Bicep, tomada desde el historial de Git.
 
+**Ensayo del rollback.** Ensayamos el camino a) la noche del 25 de noviembre de 2026. Cambiamos el título de la página con el PR #9 y el pipeline lo desplegó (ejecución #13, con Build, Pruebas, Deploy y Smoke test en verde). Después revertimos ese merge con `git revert -m 1` en un segundo PR. El pipeline volvió a desplegar y el sitio quedó con el título original. No ensayamos las formas b) ni c).
+
 **Límites que debemos reconocer:**
 
 - El rollback del pipeline cubre el **código**, no los **datos**. Si hay que recuperar citas borradas o dañadas, la base de datos tiene un respaldo periódico (cada 4 horas, con retención de 7 días), pero en este modo la restauración se solicita a soporte de Azure y no podemos garantizar el tiempo de respuesta. Por eso **no prometemos un RTO de 4 horas** con esta configuración. El respaldo continuo permitiría restaurar por cuenta propia, pero no verificamos que esté disponible en la región elegida con Cosmos DB sin servidor.
@@ -104,4 +106,4 @@ Hay tres formas de volver a una versión anterior, de la más a la menos frecuen
 
 ## 10. Evidencias
 
-En `docs/evidencias/` están las capturas del pipeline con las cuatro etapas en verde (`02-pipeline-dev-cuatro-etapas-verde.png`) y de la prueba del horario ocupado (`03-horario-ocupado-409.png`). El diagrama del pipeline irá en `docs/diagramas/`.
+En `docs/evidencias/` están las capturas del pipeline con las cuatro etapas en verde (`02-pipeline-dev-cuatro-etapas-verde.png`) y de la prueba del horario ocupado (`03-horario-ocupado-409.png`). El diagrama del pipeline está en `docs/diagramas/` (`pipeline.drawio` y `pipeline.png`). La alerta de errores del API (`alerta-errores-api-dev`, métrica `requests/failed` mayor que 5) está en `05-alerta-errores-api.png`. La alerta está configurada y habilitada, pero no probamos que dispare.
