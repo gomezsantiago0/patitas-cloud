@@ -41,7 +41,7 @@ Elegimos la alternativa A. Las alternativas B y C quedan como migración para pr
 - Hay un solo token de despliegue.
 - La cadena de Cosmos usa una clave. Si se filtra, da acceso a toda la cuenta.
 - La cadena queda como configuración del Static Web App y no en un almacén de secretos con auditoría.
-- Los tres secretos se rotan a mano. No probamos una rotación.
+- Los dos secretos se rotan a mano. No probamos una rotación.
 
 ## Qué revisaríamos en producción
 
