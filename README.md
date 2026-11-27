@@ -25,6 +25,8 @@ Atendemos de lunes a sábado, con citas cada 30 minutos entre las 7:00 a. m. y l
 
 La web está en East US 2 y los datos en Mexico Central. Los diagramas están en `docs/diagramas/`:
 
+- `c4-contexto.png`: contexto del sistema (C4 nivel 1).
+- `arquitectura-cloud.png`: servicios de Azure por capa.
 - `pipeline.png`: etapas del despliegue.
 - `red-seguridad.png`: zonas, flujos e identidades.
 
@@ -65,7 +67,7 @@ npm run lint
 El código se despliega con GitHub Actions. Un cambio sigue este recorrido: Push o PR, Build, Pruebas, Deploy y Smoke test.
 
 - Un push a `develop` despliega a dev. Si falla una etapa, las siguientes no corren.
-- Un PR a `develop` o `main` solo ejecuta Build y Pruebas.
+- Un PR a `develop` o `main` ejecuta Build y Pruebas, además de ESLint y CodeQL, pero no despliega.
 - Si se lanza el workflow a mano con Run workflow, solo corren Build y Pruebas.
 - El token de despliegue está en GitHub Secrets (`AZURE_STATIC_WEB_APPS_API_TOKEN_DEV`). No hay credenciales en el repositorio.
 
