@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Patitas · Agenda de citas</title>
+  <link rel="stylesheet" href="estilos.css">
+</head>
+<body>
+  <header class="encabezado">
+    <p class="marca">Patitas</p>
+    <p class="marca-detalle">Veterinaria</p>
+  </header>
+
+  <main class="contenido">
+    <section class="bloque-formulario" aria-labelledby="titulo-formulario">
+      <h1 id="titulo-formulario">Agenda la cita de tu mascota</h1>
+      <p class="apoyo">Atendemos de lunes a sábado, con citas cada 30 minutos entre las 7:00 a. m. y las 6:30 p. m.</p>
+
+      <form id="formulario-cita" class="formulario">
+        <div class="campo">
+          <label for="nombreCliente">Tu nombre</label>
+          <input id="nombreCliente" name="nombreCliente" type="text" autocomplete="name" minlength="2" maxlength="80" required>
+        </div>
+
+        <div class="fila">
+          <div class="campo">
+            <label for="telefono">Teléfono</label>
+            <input id="telefono" name="telefono" type="tel" autocomplete="tel" required>
+          </div>
+          <div class="campo">
+            <label for="correo">Correo electrónico</label>
+            <input id="correo" name="correo" type="email" autocomplete="email" maxlength="120" required>
+          </div>
+        </div>
+
+        <div class="fila">
+          <div class="campo">
+            <label for="nombreMascota">Nombre de la mascota</label>
+            <input id="nombreMascota" name="nombreMascota" type="text" minlength="2" maxlength="60" required>
+          </div>
+          <div class="campo">
+            <label for="especie">Especie</label>
+            <select id="especie" name="especie" required>
+              <option value="perro">Perro</option>
+              <option value="gato">Gato</option>
+              <option value="otro">Otro</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="fila">
+          <div class="campo">
+            <label for="fecha">Fecha</label>
+            <input id="fecha" name="fecha" type="date" required>
+          </div>
+          <div class="campo">
+            <label for="hora">Hora</label>
+            <select id="hora" name="hora" required></select>
+          </div>
+        </div>
+
+        <div class="campo">
+          <label for="motivo">Motivo de la consulta (opcional)</label>
+          <textarea id="motivo" name="motivo" rows="3" maxlength="200"></textarea>
+        </div>
+
+        <div class="autorizacion">
+          <input id="aceptaTratamientoDatos" name="aceptaTratamientoDatos" type="checkbox" required>
+          <label for="aceptaTratamientoDatos">Autorizo el tratamiento de mis datos personales para gestionar esta cita, según la Ley 1581 de 2012.</label>
+        </div>
+
+        <button id="boton-agendar" class="boton" type="submit">Agendar cita</button>
+        <div id="mensaje" class="mensaje" role="status" aria-live="polite"></div>
+      </form>
+    </section>
+
+    <section class="bloque-agenda" aria-labelledby="titulo-agenda">
+      <h2 id="titulo-agenda">Próximas citas</h2>
+      <p class="apoyo">Por privacidad, aquí solo se muestran la fecha, la hora y la mascota.</p>
+      <div id="agenda" class="agenda" aria-live="polite"></div>
+    </section>
+  </main>
+
+  <footer class="pie">
+    <p>Proyecto académico de la materia PENU · Escuela Colombiana de Ingeniería Julio Garavito</p>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
