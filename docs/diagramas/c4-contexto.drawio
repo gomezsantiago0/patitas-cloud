@@ -1,0 +1,54 @@
+<mxfile host="app.diagrams.net">
+  <diagram id="c4-contexto" name="C4 contexto">
+    <mxGraphModel dx="1400" dy="800" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1300" pageHeight="760" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+        <mxCell id="titulo" value="Contexto (C4 nivel 1) - Patitas Cloud" style="text;html=1;fontSize=18;fontStyle=1;align=left;" vertex="1" parent="1">
+          <mxGeometry x="20" y="15" width="700" height="30" as="geometry"/>
+        </mxCell>
+        <mxCell id="subtitulo" value="Personas y sistemas, sin detalle interno. Cada flecha dice qué hace." style="text;html=1;fontSize=11;align=left;" vertex="1" parent="1">
+          <mxGeometry x="20" y="42" width="800" height="20" as="geometry"/>
+        </mxCell>
+        <mxCell id="cliente" value="&lt;b&gt;Cliente de la veterinaria&lt;/b&gt;&lt;br&gt;[Persona]&lt;br&gt;Agenda citas para su mascota" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="40" y="130" width="240" height="90" as="geometry"/>
+        </mxCell>
+        <mxCell id="personal" value="&lt;b&gt;Personal de la veterinaria&lt;/b&gt;&lt;br&gt;[Persona]&lt;br&gt;Hoy usa la misma página, sin inicio de sesión" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="40" y="400" width="240" height="90" as="geometry"/>
+        </mxCell>
+        <mxCell id="patitas" value="&lt;b&gt;Patitas Cloud&lt;/b&gt;&lt;br&gt;[Sistema de software]&lt;br&gt;Agenda y lista las citas de la veterinaria. MVP desplegado en dev" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#0078d4;strokeColor=#005a9e;fontColor=#ffffff;fontSize=13;" vertex="1" parent="1">
+          <mxGeometry x="500" y="260" width="280" height="130" as="geometry"/>
+        </mxCell>
+        <mxCell id="github" value="&lt;b&gt;GitHub&lt;/b&gt;&lt;br&gt;[Sistema externo]&lt;br&gt;Guarda el código y ejecuta el pipeline" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#2f3e4e;strokeColor=#1f2a36;fontColor=#ffffff;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="980" y="130" width="250" height="90" as="geometry"/>
+        </mxCell>
+        <mxCell id="azure" value="&lt;b&gt;Microsoft Azure&lt;/b&gt;&lt;br&gt;[Sistema externo]&lt;br&gt;Aloja el sitio, la API y los datos" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="980" y="400" width="250" height="90" as="geometry"/>
+        </mxCell>
+        <mxCell id="f1" value="Agenda citas por la web (HTTPS)" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;strokeWidth=2;fontSize=11;" edge="1" parent="1" source="cliente" target="patitas">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="f2" value="Revisa la agenda en la misma página" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;strokeWidth=2;fontSize=11;" edge="1" parent="1" source="personal" target="patitas">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="f3" value="Guarda el código y el pipeline" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;strokeWidth=2;fontSize=11;" edge="1" parent="1" source="github" target="patitas">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="f4" value="Corre en Azure" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;strokeWidth=2;fontSize=11;" edge="1" parent="1" source="patitas" target="azure">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="f5" value="Despliega el código con el token" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;strokeWidth=2;dashed=0;fontSize=11;" edge="1" parent="1" source="github" target="azure">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1105" y="325"/>
+              <mxPoint x="1105" y="325"/>
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="leyenda" value="Leyenda&lt;br&gt;Amarillo: personas&lt;br&gt;Azul fuerte: el sistema que construimos&lt;br&gt;Gris oscuro y azul claro: sistemas externos" style="rounded=1;whiteSpace=wrap;html=1;align=left;spacingLeft=8;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="40" y="590" width="300" height="80" as="geometry"/>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
